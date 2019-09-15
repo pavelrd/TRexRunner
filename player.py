@@ -1,4 +1,5 @@
 import pygame
+import time
 
 
 class Player:
@@ -12,14 +13,20 @@ class Player:
         self.down = 0  # lower border
         self.up = 0   # upper border
         self.y = 0  # define y coordinate
-        self.jump_speed = -12  # define jump speed
+        self.jump_speed = -12.5  # define jump speed
         self.vy = self.jump_speed  # define vertical speed
         self.gravity = 0.5  # define gravity
         self.is_in_jump = 0  # define object state
         self.score = 0  # define user score
         self.bottom = scene.height - 200
         self.digits = None
+        self.font = 0
         self.sprites = None
+        self.dt = 0
+        self.played = False
+        pygame.mixer.init()
+        self.sound = pygame.mixer.Sound('jump.wav')
+        self.lives = 3
 
     def move(self, vy=0):
         self.down += vy
@@ -31,14 +38,18 @@ class Player:
     def jump(self):
         red = 255, 0, 0
         if self.is_in_jump:
+            if not self.played:
+                self.sound.play()
+                self.played = True
             self.set_sprite(self.sprites[0])
             if self.down <= self.bottom:  # when player is not on the ground
                 self.vy += self.gravity
                 self.y += self.vy
-                if self.down >= self.bottom and self.vy > 0:  # if player is going down and touches the ground
+                if self.down == self.bottom and self.vy > 0:  # if player is going down and touches the ground
                     self.vy = self.jump_speed
                     self.place_to(self.x, self.bottom - self.image.get_size()[1] * 0.5)  # bring player to the ground
                     self.is_in_jump = False  # stop jumping code execution
+                    self.played = False
             self.recalculate_borders()
             #self.draw_borders(red)
         #self.draw_borders(red)
@@ -86,6 +97,14 @@ class Player:
         self.scene = scene
 
     def draw_score(self):
+        f = self.font
+        SCORE = [f[51], f[35], f[47], f[50], f[37]]
         score = str(self.score)
+
+        for i in range(len(SCORE)):
+            self.scene.screen.blit(SCORE[i], (20 + i*SCORE[0].get_size()[0], 20))
+
+        self.scene.screen.blit(f[26], (6*SCORE[0].get_size()[0], 20))
         for i in range(len(score)):
-            self.scene.screen.blit(self.digits[score[i]], (20 + i*self.digits['0'].get_size()[0], 20))
+            self.scene.screen.blit(self.digits[score[i]], (7*SCORE[0].get_size()[0] + i*self.digits['0']
+                                                           .get_size()[0], 20))
