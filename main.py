@@ -4,16 +4,13 @@ import scene
 import pygame
 from utilities import strip_from_sheet
 import random
-import time
 
-sprite_sheet_t_rex = pygame.image.load('2x-trex.png')
-sprite_sheet_obstacle = pygame.image.load('2x-obstacle-large.png')
-sprite_sheet_digits = pygame.image.load('numbers-sprite-100.png')
-sprite_sheet_font = pygame.image.load('font.png')
+sprite_sheet_t_rex = pygame.image.load('sprites/2x-trex.png')
+sprite_sheet_obstacle = pygame.image.load('sprites/2x-obstacle-large.png')
+sprite_sheet_font = pygame.image.load('sprites/font.png')
 
 t_rex_sprite_sheet_size = sprite_sheet_t_rex.get_size()
 obstacle_sprite_sheet_size = sprite_sheet_obstacle.get_size()
-digits_sprite_sheet_size = sprite_sheet_digits.get_size()
 font_sprite_sheet_size = sprite_sheet_font.get_size()
 
 sprite_count = 6
@@ -24,16 +21,10 @@ sprites_t_rex = strip_from_sheet(sprite_sheet_t_rex, (0, 0), (t_rex_sprite_sheet
 sprites_obstacle = strip_from_sheet(sprite_sheet_obstacle, (0, 0), (obstacle_sprite_sheet_size[0] / sprite_count,
                                                                     obstacle_sprite_sheet_size[1]), sprite_count)
 
-sprites_digits = strip_from_sheet(sprite_sheet_digits, (0, 0), (digits_sprite_sheet_size[0] / 10,
-                                                                digits_sprite_sheet_size[1] / 3), 10)
 
 sprites_font = strip_from_sheet(sprite_sheet_font, (0, 0), (font_sprite_sheet_size[0]/15,
                                                             font_sprite_sheet_size[1]/8), 15, 4)
 
-size = sprites_digits[0].get_size()
-
-for i in range(len(sprites_digits)):
-    sprites_digits[i] = pygame.transform.scale(sprites_digits[i], (int(size[0]*0.3), int(size[1]*0.3)))
 
 digits = dict()
 k = 0
@@ -90,7 +81,6 @@ player.set_sprite(sprites_t_rex[0])
 #  - implement PAUSE
 
 while not pressed_space:
-    scene.screen.blit(digits['0'], (0, 0))
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             pressed_space = True
@@ -136,7 +126,7 @@ while not done:
 
     if not player.check_for_collisions():
         enemy.move(-5)
-        sound = pygame.mixer.Sound('error.wav')
+        sound = pygame.mixer.Sound('sounds/error.wav')
         #enemy.draw_borders(GREEN)
     else:
         player.lives -= 1

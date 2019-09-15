@@ -25,7 +25,7 @@ class Player:
         self.dt = 0
         self.played = False
         pygame.mixer.init()
-        self.sound = pygame.mixer.Sound('jump.wav')
+        self.sound = pygame.mixer.Sound('sounds/jump.wav')
         self.lives = 3
 
     def move(self, vy=0):
