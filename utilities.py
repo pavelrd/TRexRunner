@@ -1,4 +1,5 @@
 import pygame
+import string
 
 
 def strip_from_sheet(sheet, start, size, columns, rows=1):
@@ -15,7 +16,7 @@ def strip_from_sheet(sheet, start, size, columns, rows=1):
 
 
 def get_font(sprites, start_d, start_l):
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    alphabet = string.ascii_lowercase
     font = {}
     for i in range(start_d, start_d + 10, 1):
         font[str(i)] = sprites[i]
