@@ -96,15 +96,32 @@ class Player:
     def set_scene(self, scene):
         self.scene = scene
 
-    def draw_score(self):
-        f = self.font
-        SCORE = [f[51], f[35], f[47], f[50], f[37]]
-        score = str(self.score)
+    def get_surface_from_symbol( self, symbol ):
+        # ord - Returns a numeric representation for the specified character.
+        return self.font[ ord(symbol) - self.negativeFontOffsetRelativeToAsciiCodes ]
 
-        for i in range(len(SCORE)):
-            self.scene.screen.blit(SCORE[i], (20 + i*SCORE[0].get_size()[0], 20))
-
-        self.scene.screen.blit(f[26], (6*SCORE[0].get_size()[0], 20))
-        for i in range(len(score)):
-            self.scene.screen.blit(self.digits[score[i]], (7*SCORE[0].get_size()[0] + i*self.digits['0']
-                                                           .get_size()[0], 20))
+    def get_surfaces_array_from_string( self, str ):
+        surfacesArray = []
+        for symbol in str:
+            surfacesArray.append( self.get_surface_from_symbol( symbol ) )
+        return surfacesArray
+	
+    def draw_label_with_value( self, label, value, verticalOffsetPx ):
+		 
+        labelSurfacesArray = self.get_surfaces_array_from_string( label )
+		
+        ssize = labelSurfacesArray[0].get_size()[0]
+		
+		# draw label
+		
+        for i in range(len(labelSurfacesArray)):
+            self.scene.screen.blit( labelSurfacesArray[i], ( 20 + i * ssize, verticalOffsetPx ) )
+			
+		# draw number value
+		
+        valueString = str(value)
+		
+        zsize = self.get_surface_from_symbol('0').get_size()[0]
+		
+        for i in range(len(valueString)):
+            self.scene.screen.blit( self.get_surface_from_symbol(valueString[i]), ( 7 * ssize + i * zsize, verticalOffsetPx ) )
