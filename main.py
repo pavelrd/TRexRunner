@@ -25,13 +25,6 @@ sprites_obstacle = strip_from_sheet(sprite_sheet_obstacle, (0, 0), (obstacle_spr
 sprites_font = strip_from_sheet(sprite_sheet_font, (0, 0), (font_sprite_sheet_size[0]/15,
                                                             font_sprite_sheet_size[1]/8), 15, 4)
 
-
-digits = dict()
-k = 0
-for i in range(16, 26, 1):
-    digits[str(k)] = sprites_font[i]
-    k += 1
-
 WHITE = 255, 255, 255
 BLACK = 0, 0, 0
 RED = 255, 0, 0
@@ -77,7 +70,6 @@ player.set_sprite(sprites_t_rex[0])
 #  - implement GAME OVER +
 #  - add 'SCORE: ' before score +
 #  - add best result for score
-#  - add lives
 #  - implement PAUSE
 
 while not pressed_space:
@@ -100,7 +92,8 @@ enemy.place_to(enemy.x, enemy.bottom - enemy.image.get_size()[1] * 0.5)
 scene.clear()
 
 while not done:
-    player.draw_score()
+    player.draw_label_with_value( "SCORE:", player.score, 20 )
+    player.draw_label_with_value( "LIVES:", player.lives, 40 )
     ticker -= 1
     if ticker < 0:
         ticker = 5
@@ -122,7 +115,8 @@ while not done:
     pygame.draw.line(scene.screen, BLACK, (0, player.bottom), (scene.width, player.bottom))
     player.jump()
     player.update()
-    player.draw_score()
+    player.draw_label_with_value( "SCORE:", player.score, 20 )
+    player.draw_label_with_value( "LIVES:", player.lives, 40 )
 
     if not player.check_for_collisions():
         enemy.move(-5)
