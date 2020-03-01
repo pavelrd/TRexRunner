@@ -41,7 +41,6 @@ for i in range(len(sprites_t_rex)):
     sprites_t_rex[i] = pygame.transform.scale(sprites_t_rex[i], (int(size[0]*0.6), int(size[1]*0.6)))
 
 player = player.Player(sprites_t_rex[2], scene)
-player.digits = digits
 player.sprites = sprites_t_rex
 enemy_sprite = sprites_obstacle[0]
 enemy = enemy.Enemy(enemy_sprite, scene)
