@@ -27,6 +27,7 @@ class Player:
         pygame.mixer.init()
         self.sound = pygame.mixer.Sound('sounds/jump.wav')
         self.lives = 3
+	self.negativeFontOffsetRelativeToAsciiCodes = 32
 
     def move(self, vy=0):
         self.down += vy
